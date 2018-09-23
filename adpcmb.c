@@ -90,7 +90,7 @@ static long stepsizeTable[16] =
 	 57,  57,  57,  57,  77, 102, 128, 153
 };
 
-int YM2610_ADPCM_Encode(UINT16 *src, UINT8 *dest, int len)
+int YM2610_ADPCM_Encode(INT16 *src, UINT8 *dest, int len)
 {
 	int lpc, flag;
 	long i, dn, xn, stepSize;
@@ -147,7 +147,7 @@ int YM2610_ADPCM_Encode(UINT16 *src, UINT8 *dest, int len)
 	return 0;
 }
 
-int YM2610_ADPCM_Decode(UINT8 *src, UINT16 *dest, int len)
+int YM2610_ADPCM_Decode(UINT8 *src, INT16 *dest, int len)
 {
 	int lpc, flag, shift, step;
 	long i, xn, stepSize;
@@ -199,7 +199,7 @@ int main(int argc, char* argv[])
 	unsigned int AdpcmSize;
 	UINT8* AdpcmData;
 	unsigned int WaveSize;
-	UINT16* WaveData;
+	INT16* WaveData;
 	WAVE_FILE WaveFile;
 	WAVEFORMAT* TempFmt;
 	unsigned int TempLng;
@@ -247,7 +247,7 @@ int main(int argc, char* argv[])
 		fclose(hFile);
 		
 		WaveSize = AdpcmSize * 2;	// 4-bit ADPCM -> 2 values per byte
-		WaveData = (UINT16*)malloc(WaveSize * 2);
+		WaveData = (INT16*)malloc(WaveSize * 2);
 		printf("Decoding ...");
 		YM2610_ADPCM_Decode(AdpcmData, WaveData, WaveSize);
 		printf("  OK\n");
@@ -361,7 +361,7 @@ int main(int argc, char* argv[])
 			fread(&WaveFile.dataLen, 0x04, 0x01, hFile);
 		};
 		WaveSize = WaveFile.dataLen / 2;
-		WaveData = (UINT16*)malloc(WaveSize * 2);
+		WaveData = (INT16*)malloc(WaveSize * 2);
 		fread(WaveData, 0x02, WaveSize, hFile);
 		
 		fclose(hFile);
